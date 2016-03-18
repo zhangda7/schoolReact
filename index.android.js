@@ -6,46 +6,60 @@
 import React, {
   AppRegistry,
   Component,
+  Image,
   StyleSheet,
   Text,
-  View
+  View,
 } from 'react-native';
 
+var MOCKED_MOVIES_DATA = [
+  {title: 'Title', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}},
+];
+var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
 class schoolReact extends Component {
   render() {
+    var movie = MOCKED_MOVIES_DATA[0];
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
+       <View style={styles.container}>
+         <Image
+           source={{uri: movie.posters.thumbnail}}
+           style={styles.thumbnail}
+         />
+         <View style={styles.rightContainer}>
+           <Text style={styles.title}>{movie.title}</Text>
+           <Text style={styles.year}>{movie.year}</Text>
+         </View>
+       </View>
+     );
   }
 }
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  rightContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
-  instructions: {
+  title: {
+    fontSize: 20,
+    marginBottom: 8,
     textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  },
+  year: {
+    textAlign: 'center',
+    fontSize:20
+  },
+  thumbnail: {
+    width: 53,
+    height: 81,
   },
 });
 
-AppRegistry.registerComponent('schoolReact', () => schoolReact);
+AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
