@@ -6,47 +6,51 @@
 import React, {
   AppRegistry,
   Component,
+  Image,
   StyleSheet,
   Text,
-  View
+  View,
+  Navigator,
+  TouchableOpacity,
+  NavigatorIOS,
 } from 'react-native';
 
+var SearchPage = require('./SearchPage');
+
+var MOCKED_MOVIES_DATA = [
+  {title: 'Title', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}},
+];
+var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
+class HelloWorld extends Component {
+  render() {
+    return <Text style={styles.text}>Helo World(Again)</Text>;
+    //return React.createElement(Text, {style:styles.text}, "Hello world!");
+  }
+}
 class schoolReact extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+        <NavigatorIOS
+          style={styles.container}
+          initialRoute={{
+            title: 'Property Finder',
+            component: SearchPage,
+          }}/>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+var styles = StyleSheet.create({
+  text: {
+      color: 'white',
+      backgroundColor: 'black',
+      fontSize: 30,
+      margin: 80
+    },
+  container : {
+    flex:1
+  }
 });
 
 AppRegistry.registerComponent('schoolReact', () => schoolReact);
+

@@ -10,56 +10,60 @@ import React, {
   StyleSheet,
   Text,
   View,
+  Navigator,
+  TouchableOpacity,
 } from 'react-native';
+
+var SearchPage = require('./SearchPage');
 
 var MOCKED_MOVIES_DATA = [
   {title: 'Title', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}},
 ];
 var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
+class HelloWorld extends Component {
+  render() {
+    return <Text style={styles.text}>Helo World(Again)</Text>;
+    //return React.createElement(Text, {style:styles.text}, "Hello world!");
+  }
+}
 class schoolReact extends Component {
   render() {
-    var movie = MOCKED_MOVIES_DATA[0];
     return (
-       <View style={styles.container}>
-         <Image
-           source={{uri: movie.posters.thumbnail}}
-           style={styles.thumbnail}
-         />
-         <View style={styles.rightContainer}>
-           <Text style={styles.title}>{movie.title}</Text>
-           <Text style={styles.year}>{movie.year}</Text>
-         </View>
-       </View>
-     );
+          <Navigator
+        initialRoute={{name: 'My First Scene', index: 0}}
+        renderScene={(route, navigator) =>
+          <SearchPage
+            name={route.name}
+            onForward={() => {
+              var nextIndex = route.index + 1;
+              navigator.push({
+                name: 'Scene ' + nextIndex,
+                index: nextIndex,
+              });
+            }}
+            onBack={() => {
+              if (route.index > 0) {
+                navigator.pop();
+              }
+            }}
+          />
+        }
+      />
+    );
   }
 }
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  rightContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  year: {
-    textAlign: 'center',
-    fontSize:20
-  },
-  thumbnail: {
-    width: 53,
-    height: 81,
-  },
+  text: {
+      color: 'white',
+      backgroundColor: 'black',
+      fontSize: 30,
+      margin: 80
+    },
+  container : {
+    flex:1
+  }
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
+AppRegistry.registerComponent('schoolReact', () => schoolReact);
+
