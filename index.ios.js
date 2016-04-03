@@ -33,7 +33,7 @@ class schoolReact extends Component {
         <NavigatorIOS
           style={styles.container}
           initialRoute={{
-            title: 'Property Finder',
+            title: '搜索',
             component: SearchPage,
           }}/>
     );
