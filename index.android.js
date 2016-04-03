@@ -14,7 +14,7 @@ import React, {
   TouchableOpacity,
 } from 'react-native';
 
-var SearchPage = require('./SearchPage');
+var SearchPage = require('./android/app/src/react/SearchPage');
 
 var MOCKED_MOVIES_DATA = [
   {title: 'Title', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}},
