@@ -12,9 +12,14 @@ import React, {
   View,
   Navigator,
   TouchableOpacity,
+  BackAndroid,
 } from 'react-native';
 
-var SearchPage = require('./android/app/src/react/SearchPage');
+var SearchPage = require('./js/page/SearchPage');
+var SearchResults = require('./js/page/SearchResults');
+var DetailView = require('./js/page/DetailView');
+
+var _navigator;
 
 var MOCKED_MOVIES_DATA = [
   {title: 'Title', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}},
@@ -27,31 +32,53 @@ class HelloWorld extends Component {
   }
 }
 class schoolReact extends Component {
-  render() {
-    return (
-          <Navigator
-        initialRoute={{name: 'My First Scene', index: 0}}
-        renderScene={(route, navigator) =>
-          <SearchPage
-            name={route.name}
-            onForward={() => {
-              var nextIndex = route.index + 1;
-              navigator.push({
-                name: 'Scene ' + nextIndex,
-                index: nextIndex,
-              });
-            }}
-            onBack={() => {
-              if (route.index > 0) {
-                navigator.pop();
-              }
-            }}
-          />
+    navigatorRenderScene(route, navigator) {
+        _navigator = navigator;
+        switch(route.id) {
+            case 'search':
+                return (<SearchPage
+                            title = 'search'
+                            message={route.id}
+                            navigator = {_navigator} />); 
+            case 'results':
+                return (<SearchResults
+                            title = 'Results'
+                            message='results'
+                            listings={route.listings}
+                            navigator = {_navigator} /> );
+            case 'detail':
+                return (<DetailView
+                            title = 'Detail'
+                            property = {route.property}
+                            navigator = {_navigator} /> );
         }
-      />
-    );
-  }
+    }
+    render() {
+        return (
+            <Navigator
+                style={styles.container}
+                initialRoute={{id:'search' }}
+                renderScene={this.navigatorRenderScene}
+                configureScene = {(route) => {
+                    if(route.sceneConfig) {
+                        return route.sceneConfig;
+                    }
+                    return Navigator.SceneConfigs.FloatFromRight;
+                }}
+                />
+        );
+    }
 }
+
+BackAndroid.addEventListener('hardwareBackPress', () => {
+    if(_navigator.getCurrentRoutes().length === 1) {
+        return false;
+    }
+    _navigator.pop();
+    return true;
+})
+
+
 
 var styles = StyleSheet.create({
   text: {
