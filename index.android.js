@@ -31,6 +31,48 @@ class HelloWorld extends Component {
     //return React.createElement(Text, {style:styles.text}, "Hello world!");
   }
 }
+
+var NavigationBarRouteMapper = {
+
+  LeftButton: function(route, navigator, index, navState) {
+    if (index === 0) {
+      return null;
+    }
+
+    var previousRoute = navState.routeStack[index - 1];
+    return (
+      <TouchableOpacity
+        onPress={() => navigator.pop()}
+        style={styles.navBarLeftButton}>
+        <Text style={[styles.navBarText, styles.navBarButtonText]}>
+          {previousRoute.id}
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+
+  RightButton: function(route, navigator, index, navState) {
+    return (
+      <TouchableOpacity
+        onPress={() => navigator.push(newRandomRoute())}
+        style={styles.navBarRightButton}>
+        <Text style={[styles.navBarText, styles.navBarButtonText]}>
+          Next
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+
+  Title: function(route, navigator, index, navState) {
+    return (
+      <Text style={[styles.navBarText, styles.navBarTitleText]}>
+        {route.id} [{index}]
+      </Text>
+    );
+  },
+
+};
+
 class schoolReact extends Component {
     navigatorRenderScene(route, navigator) {
         _navigator = navigator;
@@ -59,6 +101,12 @@ class schoolReact extends Component {
                 style={styles.container}
                 initialRoute={{id:'search' }}
                 renderScene={this.navigatorRenderScene}
+                navigationBar={
+                  <Navigator.NavigationBar
+                    routeMapper={NavigationBarRouteMapper}
+                    style={styles.navBar}
+                  />
+                }
                 configureScene = {(route) => {
                     if(route.sceneConfig) {
                         return route.sceneConfig;
@@ -89,7 +137,28 @@ var styles = StyleSheet.create({
     },
   container : {
     flex:1
-  }
+    },
+    navBar: {
+    backgroundColor: 'white',
+  },
+  navBarText: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  navBarTitleText: {
+    color: '#373E4D',
+    fontWeight: '500',
+    marginVertical: 9,
+  },
+  navBarLeftButton: {
+    paddingLeft: 10,
+  },
+  navBarRightButton: {
+    paddingRight: 10,
+  },
+  navBarButtonText: {
+    color: '#5890FF',
+  },  
 });
 
 AppRegistry.registerComponent('schoolReact', () => schoolReact);
